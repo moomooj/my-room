@@ -1,10 +1,12 @@
-import { Outlines, useGLTF } from "@react-three/drei";
+import { Image, Outlines, useGLTF } from "@react-three/drei";
 import { applyProps } from "@react-three/fiber";
 import { useLayoutEffect } from "react";
 import { GLTF } from "three-stdlib";
 
 type IProps = JSX.IntrinsicElements["group"] & {
   setRectLight: React.Dispatch<React.SetStateAction<boolean>>;
+  setfocus: React.Dispatch<React.SetStateAction<boolean>>;
+  focus: boolean;
 };
 
 type GLTFResult = GLTF & {
@@ -28,12 +30,15 @@ function Room(props: IProps) {
     });
   }, [nodes, materials]);
 
-  const TurnOnTheLight = () => {
+  const turnOnTheLight = () => {
     props.setRectLight((prev) => !prev);
   };
 
-  const CameraMove = () => {
-    console.log("let's go");
+  const focusOn = () => {
+    props.setfocus(true);
+  };
+  const focusOff = () => {
+    props.setfocus(false);
   };
 
   return (
@@ -376,6 +381,17 @@ function Room(props: IProps) {
         scale={[1.313, 0.222, 3.524]}
       />
       {/*오른쪽 컴퓨터 */}
+      {props.focus && (
+        <Image
+          url="./img/close-btn.png"
+          scale={0.1}
+          position={[-3.3, 5.1, -0.78]}
+          rotation={[0, Math.PI / 3, 0]}
+          onClick={focusOff}
+          transparent
+        />
+      )}
+
       <mesh
         geometry={nodes.Object_86.geometry}
         material={materials.monitor_2}
@@ -384,13 +400,13 @@ function Room(props: IProps) {
         scale={[0.058, 0.323, 0.058]}
       >
         <Outlines
-          thickness={0.2}
+          thickness={0.08}
           screenspace={false}
           color="#fff"
           opacity={1}
           transparent={false}
           angle={Math.PI}
-          onClick={CameraMove}
+          onClick={focusOn}
         />
       </mesh>
       {/*전등 */}
@@ -407,7 +423,7 @@ function Room(props: IProps) {
           opacity={1}
           transparent={false}
           angle={Math.PI}
-          onClick={TurnOnTheLight}
+          onClick={turnOnTheLight}
         />
       </mesh>
       {/*전등 안*/}
