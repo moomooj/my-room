@@ -1,4 +1,6 @@
 import { Outlines, useGLTF } from "@react-three/drei";
+import { applyProps } from "@react-three/fiber";
+import { useLayoutEffect, useState } from "react";
 import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
@@ -7,6 +9,24 @@ type GLTFResult = GLTF & {
 };
 function Room(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("./model/My-room.glb") as GLTFResult;
+  const [rectLight, setRectLight] = useState(false);
+  useLayoutEffect(() => {
+    Object.values(nodes).forEach(
+      (node: any) =>
+        node.isMesh && (node.receiveShadow = node.castShadow = true)
+    );
+    applyProps(materials["Material.006"], {
+      color: "#c1c0c0",
+      roughness: 1,
+    });
+    applyProps(materials["Material.011"], {
+      color: "#6a6767",
+    });
+  }, [nodes, materials]);
+
+  const outLineHover = () => {
+    console.log("hover");
+  };
   return (
     <group {...props} dispose={null}>
       <group
@@ -229,16 +249,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         geometry={nodes.Object_34.geometry}
         material={materials["Material.011"]}
         scale={[4.364, 0.114, 4.364]}
-      >
-        <Outlines
-          thickness={0.01}
-          screenspace={false}
-          color="hotpink"
-          opacity={2}
-          transparent={false}
-          angle={Math.PI}
-        />
-      </mesh>
+      ></mesh>
       {/*벽 */}
       <mesh
         geometry={nodes.Object_36.geometry}
@@ -413,7 +424,17 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         material={materials.lampu}
         position={[-3.902, 6.96, 0.933]}
         scale={[0.266, 0.222, 2.44]}
-      />
+      >
+        <Outlines
+          thickness={0.02}
+          screenspace={false}
+          color="#fff"
+          opacity={1}
+          transparent={false}
+          angle={Math.PI}
+          onClick={outLineHover}
+        />
+      </mesh>
       {/*전등 안*/}
       <mesh
         geometry={nodes.Object_90.geometry}
@@ -427,7 +448,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         material={materials.minum_aer}
         position={[-2.637, 3.378, -2.155]}
         scale={[0.268, 0.386, 0.227]}
-      />
+      ></mesh>
       <mesh
         geometry={nodes.Object_94.geometry}
         material={materials.tutup_minum}
@@ -441,7 +462,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         position={[2.974, 1.499, 2.93]}
         rotation={[-0.431, 0, 0]}
         scale={[1.297, 0.075, 1.042]}
-      />
+      ></mesh>
       <mesh
         geometry={nodes.Object_99.geometry}
         material={materials.material_0}
