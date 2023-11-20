@@ -1,15 +1,19 @@
 import { Outlines, useGLTF } from "@react-three/drei";
 import { applyProps } from "@react-three/fiber";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { GLTF } from "three-stdlib";
+
+type IProps = JSX.IntrinsicElements["group"] & {
+  setRectLight: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 type GLTFResult = GLTF & {
   nodes: any;
   materials: any;
 };
-function Room(props: JSX.IntrinsicElements["group"]) {
+function Room(props: IProps) {
   const { nodes, materials } = useGLTF("./model/My-room.glb") as GLTFResult;
-  const [rectLight, setRectLight] = useState(false);
+
   useLayoutEffect(() => {
     Object.values(nodes).forEach(
       (node: any) =>
@@ -24,11 +28,17 @@ function Room(props: JSX.IntrinsicElements["group"]) {
     });
   }, [nodes, materials]);
 
-  const outLineHover = () => {
-    console.log("hover");
+  const TurnOnTheLight = () => {
+    props.setRectLight((prev) => !prev);
   };
+
+  const CameraMove = () => {
+    console.log("let's go");
+  };
+
   return (
     <group {...props} dispose={null}>
+      {/*마우스 */}
       <group
         position={[-2.655, 3, -0.432]}
         rotation={[-Math.PI, 1.152, -Math.PI]}
@@ -170,6 +180,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
           scale={0.018}
         />
       </group>
+      {/*의자 */}
       <group
         position={[-0.886, 0.23, 2.867]}
         rotation={[0, 0.528, 0]}
@@ -196,33 +207,6 @@ function Room(props: JSX.IntrinsicElements["group"]) {
           material={materials.plastic_smooth}
         />
       </group>
-      <mesh
-        geometry={nodes.Object_4.geometry}
-        material={materials.tempat_minum}
-        position={[-3.12, 3.126, -2.168]}
-        scale={[0.98, 0.144, 0.329]}
-      />
-      <mesh
-        geometry={nodes.Object_6.geometry}
-        material={materials.tatakan_laptop}
-        position={[-4.063, 3.366, 2.162]}
-        scale={[0.031, 0.345, 0.031]}
-      />
-
-      <mesh
-        geometry={nodes.Object_10.geometry}
-        material={materials.material_0}
-        position={[-3.254, 5.019, -0.84]}
-        rotation={[0, -0.519, 0]}
-        scale={[0.017, 0.073, 0.158]}
-      />
-      <mesh
-        geometry={nodes.Object_12.geometry}
-        material={materials.material_0}
-        position={[-3.336, 4.975, -0.907]}
-        rotation={[0, -0.519, 0]}
-        scale={[0.014, 0.073, 0.148]}
-      />
 
       {/*침구류 */}
       <mesh
@@ -383,27 +367,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         position={[-2.07, 1.429, -1.811]}
         scale={[-0.045, 1.33, 0.64]}
       />
-      <mesh
-        geometry={nodes.Object_78.geometry}
-        material={materials.poto_2}
-        position={[-2.471, 6.624, 4.182]}
-        rotation={[Math.PI / 2, -Math.PI / 2, 0]}
-        scale={[1.517, 0.105, 0.791]}
-      />
-      <mesh
-        geometry={nodes.Object_80.geometry}
-        material={materials.poto_3}
-        position={[-1.011, 5.82, 4.18]}
-        rotation={[Math.PI / 2, 0, 0]}
-        scale={[0.6, 0.105, 0.716]}
-      />
-      <mesh
-        geometry={nodes.Object_82.geometry}
-        material={materials.poto_4}
-        position={[0.201, 5.82, 4.18]}
-        rotation={[Math.PI / 2, 0, 0]}
-        scale={[0.6, 0.105, 0.716]}
-      />
+
       {/*매트릭스*/}
       <mesh
         geometry={nodes.Object_84.geometry}
@@ -411,13 +375,24 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         position={[2.942, 0.86, 0.329]}
         scale={[1.313, 0.222, 3.524]}
       />
+      {/*오른쪽 컴퓨터 */}
       <mesh
         geometry={nodes.Object_86.geometry}
         material={materials.monitor_2}
         position={[-3.636, 3.388, -0.936]}
         rotation={[0, -0.202, 0]}
         scale={[0.058, 0.323, 0.058]}
-      />
+      >
+        <Outlines
+          thickness={0.2}
+          screenspace={false}
+          color="#fff"
+          opacity={1}
+          transparent={false}
+          angle={Math.PI}
+          onClick={CameraMove}
+        />
+      </mesh>
       {/*전등 */}
       <mesh
         geometry={nodes.Object_88.geometry}
@@ -432,7 +407,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
           opacity={1}
           transparent={false}
           angle={Math.PI}
-          onClick={outLineHover}
+          onClick={TurnOnTheLight}
         />
       </mesh>
       {/*전등 안*/}
@@ -448,7 +423,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         material={materials.minum_aer}
         position={[-2.637, 3.378, -2.155]}
         scale={[0.268, 0.386, 0.227]}
-      ></mesh>
+      />
       <mesh
         geometry={nodes.Object_94.geometry}
         material={materials.tutup_minum}
@@ -462,7 +437,7 @@ function Room(props: JSX.IntrinsicElements["group"]) {
         position={[2.974, 1.499, 2.93]}
         rotation={[-0.431, 0, 0]}
         scale={[1.297, 0.075, 1.042]}
-      ></mesh>
+      />
       <mesh
         geometry={nodes.Object_99.geometry}
         material={materials.material_0}
