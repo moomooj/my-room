@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import {
   Environment,
   Image,
@@ -9,7 +10,8 @@ import Room from "./model/Room";
 import { useEffect, useRef, useState } from "react";
 import { Perf } from "r3f-perf";
 import gsap from "gsap";
-import Spotify from "./Spotify/Spotify";
+import Screen from "./mac/Screen";
+import Lightformers from "./Lightformers";
 
 function App() {
   const [time, setTime] = useState("00:00");
@@ -25,12 +27,6 @@ function App() {
     );
   }, []);
   const orbitControlRef = useRef<any>(null!);
-
-  // useFrame(() => {
-  // console.log(ob.current.target);
-  //console.log(ob.current.object.rotation);
-  //console.log(ob.current.object.position);
-  //});
 
   useEffect(() => {
     if (focus) {
@@ -92,7 +88,6 @@ function App() {
     <>
       {/* Debug */}
       <Perf position="top-left" />
-      <color args={["#3b3a3a"]} attach={"background"} />
       <OrbitControls target={[0, 0, 0]} ref={orbitControlRef} />
 
       {rectLight && (
@@ -120,7 +115,7 @@ function App() {
       >
         {time}
       </Text>
-      <Spotify />
+      <Screen />
       <Image
         url="./img/mac-screen.jpg"
         position={[-4.02, 1.34, 1.25]}
@@ -141,29 +136,8 @@ function App() {
         scale={[2.3, 1.4]}
       />
 
-      <Environment resolution={256}>
-        {/* top */}
-        <Lightformer
-          color={"#ffffff"}
-          intensity={0.1}
-          position={[0, 14, 0]}
-          rotation={[Math.PI / 2, 0, 0]}
-          scale={[20, 20, 0]}
-        />
-        <Lightformer
-          color={"#ffffff"}
-          intensity={0.2}
-          position={[5, 1, 0]}
-          rotation={[0, Math.PI / 2, 0]}
-          scale={[9, 9, 0]}
-        />
-        <Lightformer
-          color={"#ffffff"}
-          intensity={0.1}
-          position={[-0.8, 1, -5]}
-          rotation={[0, 0, 0]}
-          scale={[9, 9, 0]}
-        />
+      <Environment blur={1} resolution={256} background>
+        <Lightformers />
       </Environment>
     </>
   );

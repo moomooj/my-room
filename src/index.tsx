@@ -41,6 +41,8 @@ html
   width: 100%;
   height: 100%;
   overflow: hidden;
+//  background: linear-gradient(137deg, #fff6b7, #f77c99, #6578f2, #c2ffd8);
+
 }
 menu, ol, ul {
   list-style: none;
@@ -75,20 +77,24 @@ a {
 
 `;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <>
-    <GolbalStyle />
-    <Canvas
-      shadows
-      dpr={[1, 2]}
-      camera={{
-        fov: 35,
-        near: 1,
-        far: 100,
-        position: [15, 5, -15],
-      }}
-    >
-      <App />
-    </Canvas>
-  </>
-);
+const OverLay = () => {
+  return (
+    <>
+      <GolbalStyle />
+      <Canvas
+        shadows
+        dpr={[1, 2]}
+        camera={{
+          fov: 35,
+          near: 1,
+          far: 100,
+          position: [15, 5, -15],
+        }}
+      >
+        <App />
+      </Canvas>
+    </>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")!).render(<OverLay />);

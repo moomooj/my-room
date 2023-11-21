@@ -398,6 +398,10 @@ function Room(props: IProps) {
         position={[-3.636, 3.388, -0.936]}
         rotation={[0, -0.202, 0]}
         scale={[0.058, 0.323, 0.058]}
+        onClick={(event) => {
+          focusOn();
+          event.stopPropagation();
+        }}
       >
         <Outlines
           thickness={0.08}
@@ -406,7 +410,6 @@ function Room(props: IProps) {
           opacity={1}
           transparent={false}
           angle={Math.PI}
-          onClick={focusOn}
         />
       </mesh>
       {/*전등 */}
