@@ -381,16 +381,15 @@ function Room(props: IProps) {
         scale={[1.313, 0.222, 3.524]}
       />
       {/*오른쪽 컴퓨터 */}
-      {props.focus && (
-        <Image
-          url="./img/close-btn.png"
-          scale={0.1}
-          position={[-3.3, 5.1, -0.78]}
-          rotation={[0, Math.PI / 3, 0]}
-          onClick={focusOff}
-          transparent
-        />
-      )}
+
+      <Image
+        url="./img/close-btn.png"
+        scale={props.focus ? 0.1 : 0}
+        position={[-3.3, 5.1, -0.78]}
+        rotation={[0, Math.PI / 3, 0]}
+        onClick={focusOff}
+        transparent
+      />
 
       <mesh
         geometry={nodes.Object_86.geometry}

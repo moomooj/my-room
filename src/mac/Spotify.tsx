@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TextureLoader } from "three";
 
 interface IProps {
+  open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -19,7 +20,7 @@ interface IAudio {
   [key: string]: any;
 }
 
-function Spotify({ setOpen }: IProps) {
+function Spotify({ open, setOpen }: IProps) {
   const [
     spscreen,
     spgods,
@@ -86,7 +87,8 @@ function Spotify({ setOpen }: IProps) {
       <group
         position={[-3.3, 1.35, -0.78]}
         rotation={[0, Math.PI / 3, 0]}
-        scale={1.1}
+        scale={open ? 1.1 : 0}
+        visible={open}
       >
         <Plane scale={[1.7, 1, 0.1]} onClick={closeSpotify}>
           <meshBasicMaterial map={spscreen} />

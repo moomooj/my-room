@@ -23,27 +23,16 @@ function Screen() {
         <Plane scale={[2.1, 1.26, 0.1]}>
           <meshBasicMaterial map={screen} />
         </Plane>
-
-        {!open ? (
-          <Plane
-            position={[-0.45, 0, 0.1]}
-            scale={[0.6, 0.6, 0.1]}
-            onClick={openSpotify}
-          >
-            <meshBasicMaterial map={spotifyLogo} />
-          </Plane>
-        ) : (
-          <Plane
-            position={[-0.45, 0, 0.1]}
-            scale={[0.6, 0.6, 0.1]}
-            onClick={openSpotify}
-          >
-            <meshBasicMaterial map={spotifyLogo} />
-          </Plane>
-        )}
+        <Plane
+          position={[-0.45, 0, 0.1]}
+          scale={!open ? [0.6, 0.6, 0.1] : [0, 0, 0]}
+          onClick={openSpotify}
+        >
+          <meshBasicMaterial map={spotifyLogo} transparent />
+        </Plane>
       </group>
 
-      {open && <Spotify setOpen={setOpen} />}
+      <Spotify open={open} setOpen={setOpen} />
     </>
   );
 }

@@ -129,7 +129,7 @@ function App() {
         scale={[2.3, 1.4]}
       />
 
-      <Environment blur={1} resolution={256} background>
+      <Environment blur={1} resolution={256}>
         <Lightformers />
       </Environment>
     </>

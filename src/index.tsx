@@ -41,7 +41,7 @@ html
   width: 100%;
   height: 100%;
   overflow: hidden;
-//  background: linear-gradient(137deg, #fff6b7, #f77c99, #6578f2, #c2ffd8);
+background: red
 
 }
 menu, ol, ul {
