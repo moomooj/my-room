@@ -1,9 +1,10 @@
 import * as THREE from "three";
 import { Lightformer } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 
 function Lightformers() {
+  const ref = useRef<any>(null);
+
   return (
     <>
       {/* top */}
@@ -36,6 +37,7 @@ function Lightformers() {
         scale={10}
         position={[-40, 0, 30]}
         rotation={[0, Math.PI / -3, 0]}
+        ref={ref}
       />
 
       {/* Background */}

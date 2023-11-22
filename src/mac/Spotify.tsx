@@ -1,5 +1,7 @@
-import { Image } from "@react-three/drei";
+import { Plane } from "@react-three/drei";
+import { useLoader } from "@react-three/fiber";
 import { useState } from "react";
+import { TextureLoader } from "three";
 
 interface IProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,23 @@ interface IAudio {
 }
 
 function Spotify({ setOpen }: IProps) {
+  const [
+    spscreen,
+    spgods,
+    spstopgods,
+    spstopmemories,
+    spmemories,
+    spstopprada,
+    spprada,
+  ] = useLoader(TextureLoader, [
+    "./img/spscreen.jpg",
+    "./img/spgods.jpg",
+    "./img/spstopgods.jpg",
+    "./img/spstopmemories.jpg",
+    "./img/spmemories.jpg",
+    "./img/spstopprada.jpg",
+    "./img/spprada.jpg",
+  ]);
   const [audio, setAudio] = useState<IAudio>({
     gods: new Audio("./music/gods.mp3"),
     memories: new Audio("./music/memories.mp3"),
@@ -69,41 +88,44 @@ function Spotify({ setOpen }: IProps) {
         rotation={[0, Math.PI / 3, 0]}
         scale={1.1}
       >
-        <Image
-          url="./img/spscreen.jpg"
-          scale={[1.7, 1]}
-          onClick={closeSpotify}
-        />
-        <Image
-          url={`./img/${isPlaying.gods ? "spstopgods" : "spgods"}.jpg`}
+        <Plane scale={[1.7, 1, 0.1]} onClick={closeSpotify}>
+          <meshBasicMaterial map={spscreen} />
+        </Plane>
+
+        <Plane
           position={[0, 0.3, 0.001]}
-          scale={[1.45, 0.25]}
+          scale={[1.45, 0.25, 0.1]}
           onClick={(event) => {
             playPause("gods");
             event.stopPropagation();
           }}
-        />
+        >
+          <meshBasicMaterial map={isPlaying.gods ? spstopgods : spgods} />
+        </Plane>
 
-        <Image
-          url={`./img/${
-            isPlaying.memories ? "spstopmemories" : "spmemories"
-          }.jpg`}
+        <Plane
           position={[0, 0, 0.001]}
-          scale={[1.45, 0.25]}
+          scale={[1.45, 0.25, 0.1]}
           onClick={(event) => {
             playPause("memories");
             event.stopPropagation();
           }}
-        />
-        <Image
-          url={`./img/${isPlaying.prada ? "spstopprada" : "spprada"}.jpg`}
+        >
+          <meshBasicMaterial
+            map={isPlaying.memories ? spstopmemories : spmemories}
+          />
+        </Plane>
+
+        <Plane
           position={[0, -0.3, 0.01]}
-          scale={[1.45, 0.25]}
+          scale={[1.45, 0.25, 0.1]}
           onClick={(event) => {
             playPause("prada");
             event.stopPropagation();
           }}
-        />
+        >
+          <meshBasicMaterial map={isPlaying.prada ? spstopprada : spprada} />
+        </Plane>
       </group>
     </>
   );

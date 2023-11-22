@@ -1,11 +1,4 @@
-import * as THREE from "three";
-import {
-  Environment,
-  Image,
-  Lightformer,
-  OrbitControls,
-  Text,
-} from "@react-three/drei";
+import { Environment, Image, OrbitControls, Text } from "@react-three/drei";
 import Room from "./model/Room";
 import { useEffect, useRef, useState } from "react";
 import { Perf } from "r3f-perf";
@@ -21,8 +14,8 @@ function App() {
   useEffect(() => {
     const today = new Date();
     setTime(
-      `${today.getHours() < 11 ? "0" + today.getHours() : today.getHours()}:${
-        today.getMinutes() < 11 ? "0" + today.getMinutes() : today.getMinutes()
+      `${today.getHours() < 10 ? "0" + today.getHours() : today.getHours()}:${
+        today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes()
       }`
     );
   }, []);
