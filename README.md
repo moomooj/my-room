@@ -1,5 +1,7 @@
 # My Room
 
+구경하기 : https://moomooj.github.io/my-room/
+
 React Three Fiber 라이브러리를 사용하여 저의 방을 구현하였습니다.
 
 조명과 컴퓨터에 간단한 이벤트를 추가하였습니다.
