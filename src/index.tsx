@@ -1,7 +1,10 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { Canvas } from "@react-three/fiber";
+import { RecoilRoot } from "recoil";
+import { Suspense } from "react";
+import { Html, useProgress } from "@react-three/drei";
 
 const GolbalStyle = createGlobalStyle`
 
@@ -41,8 +44,7 @@ html
   width: 100%;
   height: 100%;
   overflow: hidden;
-background: red
-
+  background-color: #0b165943
 }
 menu, ol, ul {
   list-style: none;
@@ -76,10 +78,68 @@ a {
 }
 
 `;
+const Wrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+`;
+const WorkDate = styled.div`
+  position: absolute;
+  bottom: 2%;
+  right: 5%;
+`;
+const NameTag = styled.div`
+  position: absolute;
+  top: 2%;
+  left: 5%;
+  font-size: 15px;
+`;
+
+const Copyright = styled.div`
+  position: absolute;
+  bottom: 2%;
+  left: 5%;
+  font-size: 15px;
+`;
 
 const OverLay = () => {
   return (
-    <>
+    <Wrap>
+      <Copyright>
+        <br />
+        Myroom
+      </Copyright>
+      <NameTag>Ju</NameTag>
+      <WorkDate>2023/11/23</WorkDate>
+    </Wrap>
+  );
+};
+
+const Progress = styled.div`
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+`;
+
+function Loader() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <Progress>{`${progress.toFixed()}%`}</Progress>
+    </Html>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <>
+    <RecoilRoot>
+      <OverLay />
       <GolbalStyle />
       <Canvas
         shadows
@@ -88,13 +148,15 @@ const OverLay = () => {
           fov: 35,
           near: 1,
           far: 100,
-          position: [15, 5, -15],
+        }}
+        gl={{
+          alpha: true,
         }}
       >
-        <App />
+        <Suspense fallback={<Loader />}>
+          <App />
+        </Suspense>
       </Canvas>
-    </>
-  );
-};
-
-ReactDOM.createRoot(document.getElementById("root")!).render(<OverLay />);
+    </RecoilRoot>
+  </>
+);

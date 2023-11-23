@@ -132,5 +132,14 @@ function Spotify({ open, setOpen }: IProps) {
     </>
   );
 }
+useLoader.preload(TextureLoader, [
+  "./img/spscreen.jpg",
+  "./img/spgods.jpg",
+  "./img/spstopgods.jpg",
+  "./img/spstopmemories.jpg",
+  "./img/spmemories.jpg",
+  "./img/spstopprada.jpg",
+  "./img/spprada.jpg",
+]);
 
 export default Spotify;

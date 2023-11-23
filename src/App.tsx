@@ -1,16 +1,17 @@
-import { Environment, Image, OrbitControls, Text } from "@react-three/drei";
-import Room from "./model/Room";
+import { Environment, OrbitControls, Text } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
-import { Perf } from "r3f-perf";
+import { mobile } from "./utils/Mobile";
+import Room from "./model/Room";
 import gsap from "gsap";
 import Screen from "./mac/Screen";
 import Lightformers from "./Lightformers";
+import Images from "./Images";
 
 function App() {
   const [time, setTime] = useState("00:00");
   const [rectLight, setRectLight] = useState(true);
   const [focus, setfocus] = useState(false);
-
+  const orbitControlRef = useRef<any>(null!);
   useEffect(() => {
     const today = new Date();
     setTime(
@@ -19,7 +20,6 @@ function App() {
       }`
     );
   }, []);
-  const orbitControlRef = useRef<any>(null!);
 
   useEffect(() => {
     if (focus) {
@@ -33,20 +33,20 @@ function App() {
       });
       gsap.to(orbitControlRef.current.target, {
         duration: 1,
-        z: -2.35,
+        z: -2.55,
       });
 
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        x: 0,
+        x: mobile() ? 3.15 : 0,
       });
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        y: 1.2,
+        y: mobile() ? 1 : 1.2,
       });
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        z: 1,
+        z: mobile() ? 3.3 : 1,
       });
     } else {
       gsap.to(orbitControlRef.current.target, {
@@ -64,25 +64,28 @@ function App() {
 
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        x: 15,
+        x: mobile() ? 30 : 15,
       });
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        y: 5,
+        y: mobile() ? 10 : 5,
       });
       gsap.to(orbitControlRef.current.object.position, {
         duration: 1,
-        z: -15,
+        z: mobile() ? -35 : -15,
       });
     }
   }, [focus]);
 
   return (
     <>
-      {/* Debug */}
-      <Perf position="top-left" />
-      <OrbitControls target={[0, 0, 0]} ref={orbitControlRef} />
-
+      <OrbitControls
+        target={[0, 0, 0]}
+        ref={orbitControlRef}
+        enableZoom={!focus}
+        enableRotate={!focus}
+        enablePan={!focus}
+      />
       {rectLight && (
         <rectAreaLight
           intensity={40}
@@ -99,6 +102,8 @@ function App() {
         setfocus={setfocus}
         focus={focus}
       />
+      <Screen />
+      <Images />
       <Text
         font="./font/DNFBitBitv2.ttf"
         position={[2.7, 4, 4.1]}
@@ -108,27 +113,6 @@ function App() {
       >
         {time}
       </Text>
-      <Screen />
-      <Image
-        url="./img/mac-screen.jpg"
-        position={[-4.02, 1.34, 1.25]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[1.93, 1.1]}
-      />
-      <Image
-        url="./img/three.jpg"
-        position={[-3.13, 1.35, 3.15]}
-        rotation={[0, Math.PI / 1.39, 0]}
-        scale={[2, 1.14]}
-      />
-
-      <Image
-        url="./img/lala.jpg"
-        position={[-0.42, 4.3, 4]}
-        rotation={[0, Math.PI, 0]}
-        scale={[2.3, 1.4]}
-      />
-
       <Environment blur={1} resolution={256}>
         <Lightformers />
       </Environment>

@@ -36,5 +36,9 @@ function Screen() {
     </>
   );
 }
+useLoader.preload(TextureLoader, [
+  "./img/screen.jpg",
+  "./img/spotify-logo.png",
+]);
 
 export default Screen;
